@@ -1,4 +1,3 @@
-import 'package:chatapp/constant/constant.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends StatelessWidget {

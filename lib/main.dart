@@ -1,8 +1,5 @@
 import 'package:chatapp/common/service/routes.dart';
 import 'package:chatapp/constant/constant.dart';
-import 'package:chatapp/feature/auth/screen/auth.dart';
-import 'package:chatapp/feature/home/screen/home.dart';
-import 'package:chatapp/navbar/navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';

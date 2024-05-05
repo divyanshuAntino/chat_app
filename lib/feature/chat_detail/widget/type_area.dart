@@ -22,11 +22,11 @@ class _TypeAreaState extends State<TypeArea> {
             flex: 1,
             child: TextField(
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide.none,
-                  ),
-                  hintText: "Message",
-                  suffix: Icon(Icons.send)),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                ),
+                hintText: "Message",
+              ),
             ),
           ),
           Padding(padding: EdgeInsets.only(right: 10), child: Icon(Icons.send))
