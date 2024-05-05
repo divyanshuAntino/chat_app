@@ -2,6 +2,7 @@ import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/home/widget/person_cart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -59,12 +60,17 @@ class _HomePageState extends State<HomePage> {
                   )
                 ],
               )),
-          const PersonCart(
-            path: "assets/image/nora.jpg",
-            isOnline: true,
-            userName: "Nora Singh",
-            messageCount: 3,
-            lastMessage: "Mje aarhe h zindgi m",
+          GestureDetector(
+            onTap: () {
+              context.push("/chatDetail");
+            },
+            child: const PersonCart(
+              path: "assets/image/nora.jpg",
+              isOnline: true,
+              userName: "Nora Singh",
+              messageCount: 3,
+              lastMessage: "Mje aarhe h zindgi m",
+            ),
           ),
           const PersonCart(
             path: "assets/image/sh.jpg",

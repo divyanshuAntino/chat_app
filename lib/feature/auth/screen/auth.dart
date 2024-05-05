@@ -38,6 +38,8 @@ class _AuthScreenState extends State<AuthScreen> {
   void singUpUser() async {
     final userCredential = await auth.SignUpWithGoogle();
     if (userCredential != null) {
+      await constant.prefs.setString(
+          'accessToken', userCredential.credential?.accessToken ?? "");
       print("Sign up successfully");
     } else {
       print("Somethinf went wrong");

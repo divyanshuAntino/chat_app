@@ -1,3 +1,4 @@
+import 'package:chatapp/common/service/routes.dart';
 import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/auth/screen/auth.dart';
 import 'package:chatapp/feature/home/screen/home.dart';
@@ -7,13 +8,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 bool shouldUseFirebaseEmulator = false;
 
 late final FirebaseApp app;
 late final FirebaseAuth auth;
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  constant.prefs = await SharedPreferences.getInstance();
+
   // if (kIsWeb) {
   app = await Firebase.initializeApp(
       options: const FirebaseOptions(
@@ -49,13 +54,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const AuthScreen(),
+    return MaterialApp.router(
+      routerConfig: Routes.routes,
       debugShowCheckedModeBanner: false,
     );
   }
