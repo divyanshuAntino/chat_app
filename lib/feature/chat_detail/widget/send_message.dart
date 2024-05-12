@@ -14,7 +14,7 @@ class SendMessage extends StatelessWidget {
           width: 10,
         ),
         Container(
-          padding: EdgeInsets.all(10),
+          padding: const EdgeInsets.all(10),
           height: 50,
           decoration: BoxDecoration(
               color: constant.primary,

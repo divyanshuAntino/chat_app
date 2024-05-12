@@ -3,6 +3,7 @@ import 'package:chatapp/common/widget/custom_button.dart';
 import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/auth/service/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 enum Auth { signin, signup }
 
@@ -40,7 +41,7 @@ class _AuthScreenState extends State<AuthScreen> {
     if (userCredential != null) {
       await constant.prefs.setString(
           'accessToken', userCredential.credential?.accessToken ?? "");
-      print("Sign up successfully");
+      context.push("/userName");
     } else {
       print("Somethinf went wrong");
     }
