@@ -131,7 +131,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                       Icons.add,
                       color: Colors.white,
                     ),
-                  ))
+                  )),
             ],
           ),
         ),

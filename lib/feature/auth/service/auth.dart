@@ -17,4 +17,10 @@ class Authentication {
       return null;
     }
   }
+
+  void logout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
+    print("Logout successfully");
+  }
 }
