@@ -1,8 +1,24 @@
 import 'package:chatapp/constant/constant.dart';
-import 'package:flutter/material.dart';
+import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
 
-class UserName extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+
+class UserName extends StatefulWidget {
   const UserName({super.key});
+
+  @override
+  State<UserName> createState() => _UserNameState();
+}
+
+class _UserNameState extends State<UserName> {
+  onBoardingServices onboard = onBoardingServices();
+  TextEditingController controller = TextEditingController();
+  @override
+  void initState() {
+    super.initState();
+    onboard.createUser();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +34,9 @@ class UserName extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(width: 1, color: Colors.black)),
-              child: const TextField(
-                decoration: InputDecoration(
+              child: TextField(
+                controller: controller,
+                decoration: const InputDecoration(
                     hintText: "Enter UserName", border: InputBorder.none),
               ),
             ),
@@ -36,7 +53,10 @@ class UserName extends StatelessWidget {
               "Next",
               style: TextStyle(color: Colors.white),
             ),
-            onPressed: () {},
+            onPressed: () {
+              onboard.updateUserInfo("userName", controller.text);
+              context.pushReplacement("/dob");
+            },
           )
         ],
       ),

@@ -1,21 +1,14 @@
 import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
-
 import 'package:flutter/material.dart';
 
-class Dob extends StatefulWidget {
-  const Dob({super.key});
-
-  @override
-  State<Dob> createState() => _DobState();
-}
-
-class _DobState extends State<Dob> {
-  onBoardingServices onboard = onBoardingServices();
-  TextEditingController controller = TextEditingController();
+class Name extends StatelessWidget {
+  const Name({super.key});
 
   @override
   Widget build(BuildContext context) {
+    onBoardingServices onboard = onBoardingServices();
+    TextEditingController controller = TextEditingController();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Scaffold(
       body: Column(
@@ -29,10 +22,9 @@ class _DobState extends State<Dob> {
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(width: 1, color: Colors.black)),
               child: TextField(
-                keyboardType: TextInputType.datetime,
                 controller: controller,
                 decoration: const InputDecoration(
-                    hintText: "Enter dob", border: InputBorder.none),
+                    hintText: "Enter Name", border: InputBorder.none),
               ),
             ),
           ),
@@ -49,7 +41,7 @@ class _DobState extends State<Dob> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              onboard.updateUserInfo("dob", controller.text);
+              onboard.updateUserInfo("name", controller.text);
             },
           )
         ],
