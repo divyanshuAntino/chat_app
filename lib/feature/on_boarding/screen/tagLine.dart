@@ -1,6 +1,7 @@
 import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class TagLine extends StatelessWidget {
   const TagLine({super.key});
@@ -42,6 +43,7 @@ class TagLine extends StatelessWidget {
             ),
             onPressed: () {
               onboard.updateUserInfo("tagLine", controller.text);
+              context.pushReplacement("/profile");
             },
           )
         ],

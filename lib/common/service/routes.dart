@@ -9,7 +9,7 @@ import 'package:chatapp/navbar/navbar.dart';
 import 'package:go_router/go_router.dart';
 
 class Routes {
-  static final GoRouter routes = GoRouter(initialLocation: "/dob", routes: [
+  static final GoRouter routes = GoRouter(initialLocation: "/auth", routes: [
     GoRoute(path: "/home", builder: (context, state) => const NavBar()),
     GoRoute(path: "/auth", builder: (context, state) => const AuthScreen()),
     GoRoute(path: "/userName", builder: (context, state) => const UserName()),

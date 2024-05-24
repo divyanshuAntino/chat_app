@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:chatapp/constant/constant.dart';
+import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePhoto extends StatefulWidget {
@@ -13,7 +15,9 @@ class ProfilePhoto extends StatefulWidget {
 }
 
 class _ProfilePhotoState extends State<ProfilePhoto> {
-  late File selectedImage;
+  File? selectedImage;
+  bool selectimage = false;
+  onBoardingServices onBoard = onBoardingServices();
 
   Future openCamera() async {
     final picker = ImagePicker();
@@ -21,6 +25,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
     if (pickedFile != null) {
       setState(() {
         selectedImage = File(pickedFile.path);
+        selectimage = true;
       });
     } else {
       print("file is not available to load");
@@ -33,6 +38,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
     if (pickedFile != null) {
       setState(() {
         selectedImage = File(pickedFile.path);
+        selectimage = true;
       });
     } else {
       print("file is not available to load");
@@ -114,10 +120,13 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
           },
           child: Stack(
             children: [
-              const Center(
+              Center(
                 child: CircleAvatar(
                   radius: 50,
-                  backgroundImage: AssetImage("assets/image/person.png"),
+                  backgroundImage: selectimage
+                      ? AssetImage("assets/image/person.png")
+                      : AssetImage(
+                          selectedImage?.path ?? "assets/image/person.png"),
                 ),
               ),
               Positioned(
@@ -150,7 +159,9 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                 "Skip",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                context.pushReplacement("/home");
+              },
             ),
             ElevatedButton(
               style: ButtonStyle(
@@ -161,7 +172,11 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                 "Next",
                 style: TextStyle(color: Colors.white),
               ),
-              onPressed: () {},
+              onPressed: () {
+                onBoard.uploadImage(
+                    selectedImage ?? File("assets/image/person.png"));
+                context.pushReplacement("/home");
+              },
             ),
           ],
         )

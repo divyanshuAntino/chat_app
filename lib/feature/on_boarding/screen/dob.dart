@@ -2,6 +2,7 @@ import 'package:chatapp/constant/constant.dart';
 import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
 
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class Dob extends StatefulWidget {
   const Dob({super.key});
@@ -50,6 +51,7 @@ class _DobState extends State<Dob> {
             ),
             onPressed: () {
               onboard.updateUserInfo("dob", controller.text);
+              context.pushReplacement("/name");
             },
           )
         ],
