@@ -1,4 +1,5 @@
 import 'package:chatapp/common/service/routes.dart';
+import 'package:chatapp/common/service/sharePreference.dart';
 import 'package:chatapp/constant/constant.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -35,7 +36,7 @@ void main() async {
   if (shouldUseFirebaseEmulator) {
     await auth.useAuthEmulator('localhost', 9099);
   }
-  runApp(const MyApp());
+  runApp(MyApp());
   SystemChrome.setSystemUIOverlayStyle(
     SystemUiOverlayStyle(
       statusBarColor: constant.primary,
@@ -47,13 +48,36 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: FutureBuilder<String>(
+        future: customSharePreference().readData('logIn'),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(child: Text('Error loading preferences'));
+          } else {
+            final log = snapshot.data ?? '';
+            return MyAppWithRouter(logInfo: log);
+          }
+        },
+      ),
+      debugShowCheckedModeBanner: false,
+    );
+  }
+}
+
+class MyAppWithRouter extends StatelessWidget {
+  final String logInfo;
+  MyAppWithRouter({super.key, required this.logInfo});
 
   @override
   Widget build(BuildContext context) {
+    final Routes routes = Routes(log: logInfo);
     return MaterialApp.router(
       routerConfig: Routes.routes,
-      debugShowCheckedModeBanner: false,
     );
   }
 }

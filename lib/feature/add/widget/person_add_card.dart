@@ -1,3 +1,4 @@
+import 'package:chatapp/feature/chat_detail/service/chat_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
@@ -22,6 +23,7 @@ class PersonAddCart extends StatefulWidget {
 }
 
 class _PersonAddCartState extends State<PersonAddCart> {
+  ChatServices chatServices = ChatServices();
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -79,9 +81,11 @@ class _PersonAddCartState extends State<PersonAddCart> {
             ),
           ),
           GestureDetector(
-            onTap: () {
+            onTap: () async {
+              String chatId =
+                  await chatServices.chreatChatRoom(widget.userId ?? "");
               context.push(
-                "/chatDetail/${widget.userId}",
+                "/chatDetail/$chatId",
               );
             },
             child: const Column(

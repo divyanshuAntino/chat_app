@@ -51,7 +51,7 @@ class _ChatDetailsState extends State<ChatDetails> {
     return Scaffold(
       body: Stack(
         children: [
-          ChatAppBar(),
+          const ChatAppBar(),
           Positioned(
               top: mediaQueryData.size.height * 0.151,
               child: Container(

@@ -1,3 +1,4 @@
+import 'package:chatapp/common/service/sharePreference.dart';
 import 'package:chatapp/common/widget/common_container.dart';
 import 'package:chatapp/common/widget/custom_button.dart';
 import 'package:chatapp/constant/constant.dart';
@@ -17,6 +18,7 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  customSharePreference pref = customSharePreference();
   Auth _auth = Auth.signup;
   Color colorSign = Colors.black;
   Color colorSignup = constant.primary;
@@ -39,9 +41,14 @@ class _AuthScreenState extends State<AuthScreen> {
   void singUpUser() async {
     final userCredential = await auth.SignUpWithGoogle();
     if (userCredential != null) {
-      await constant.prefs.setString(
-          'accessToken', userCredential.credential?.accessToken ?? "");
-      context.push("/userName");
+      pref.saveData("logIn", "loggedIn");
+      bool isLoggedIn = await auth.checkUserId(userCredential.user?.uid ?? "");
+      if (isLoggedIn) {
+        context.push("/home");
+      } else {
+        context.push("/userName");
+        auth.addUserToUserIds(userCredential.user?.uid ?? "");
+      }
     } else {
       print("Somethinf went wrong");
     }

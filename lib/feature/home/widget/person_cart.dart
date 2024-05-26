@@ -91,7 +91,7 @@ class _PersonCartState extends State<PersonCart> {
                       child: Center(
                           child: Text(
                         widget.messageCount.toString(),
-                        style: TextStyle(color: Colors.white),
+                        style: const TextStyle(color: Colors.white),
                       )),
                     )
                   : const SizedBox()
