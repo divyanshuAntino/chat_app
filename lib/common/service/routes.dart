@@ -16,7 +16,13 @@ class Routes {
     GoRoute(
         path: "/profile", builder: (context, state) => const ProfilePhoto()),
     GoRoute(
-        path: "/chatDetail", builder: (context, state) => const ChatDetails()),
+        path: "/chatDetail/:userId",
+        builder: (context, state) {
+          final userId = state.pathParameters["userId"];
+          return ChatDetails(
+            userId: userId,
+          );
+        }),
     GoRoute(path: "/dob", builder: (context, state) => const Dob()),
     GoRoute(path: "/name", builder: (context, state) => const Name()),
     GoRoute(path: "/tagLine", builder: (context, state) => const TagLine()),

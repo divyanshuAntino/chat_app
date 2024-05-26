@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class TypeArea extends StatefulWidget {
-  const TypeArea({super.key});
+  final Function(TextEditingController)? onSend;
+  const TypeArea({super.key, this.onSend});
 
   @override
   State<TypeArea> createState() => _TypeAreaState();
 }
 
 class _TypeAreaState extends State<TypeArea> {
+  TextEditingController controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,12 +19,13 @@ class _TypeAreaState extends State<TypeArea> {
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
           border: Border.all(width: 1, color: Colors.black)),
-      child: const Row(
+      child: Row(
         children: [
           Flexible(
             flex: 1,
             child: TextField(
-              decoration: InputDecoration(
+              controller: controller,
+              decoration: const InputDecoration(
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
                 ),
@@ -29,7 +33,12 @@ class _TypeAreaState extends State<TypeArea> {
               ),
             ),
           ),
-          Padding(padding: EdgeInsets.only(right: 10), child: Icon(Icons.send))
+          GestureDetector(
+              onTap: () {
+                widget.onSend!(controller);
+              },
+              child: const Padding(
+                  padding: EdgeInsets.only(right: 10), child: Icon(Icons.send)))
         ],
       ),
     );

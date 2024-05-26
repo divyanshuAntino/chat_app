@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 
 class PersonAddCart extends StatefulWidget {
   final String? Name;
   final String? tagLine;
   final bool? isOnline;
+  final String? userId;
 
   final String? Imagepath;
-  const PersonAddCart({
-    super.key,
-    this.Name,
-    this.tagLine,
-    this.isOnline,
-    this.Imagepath,
-  });
+  const PersonAddCart(
+      {super.key,
+      this.Name,
+      this.tagLine,
+      this.isOnline,
+      this.Imagepath,
+      this.userId});
 
   @override
   State<PersonAddCart> createState() => _PersonAddCartState();
@@ -76,10 +78,17 @@ class _PersonAddCartState extends State<PersonAddCart> {
               ],
             ),
           ),
-          const Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [Icon(Icons.message_outlined)],
+          GestureDetector(
+            onTap: () {
+              context.push(
+                "/chatDetail/${widget.userId}",
+              );
+            },
+            child: const Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [Icon(Icons.message_outlined)],
+            ),
           )
         ],
       ),

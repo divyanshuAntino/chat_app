@@ -89,10 +89,10 @@ class _AddScreenState extends State<AddScreen> {
                   itemBuilder: (context, index) {
                     Map<String, dynamic> document = documents[index];
                     return PersonAddCart(
-                      Name: document['name'],
-                      Imagepath: document['image'],
-                      tagLine: document['tagLine'],
-                    );
+                        Name: document['name'],
+                        Imagepath: document['image'],
+                        tagLine: document['tagLine'],
+                        userId: document['uid']);
                   },
                 );
               },
