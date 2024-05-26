@@ -17,7 +17,8 @@ class onBoardingServices {
       "name": "",
       "phoneNumber": auth.currentUser?.phoneNumber ?? "",
       "userName": "",
-      "tagLine": ""
+      "tagLine": "",
+      "uid": auth.currentUser?.uid ?? ""
     }).then((value) {
       print("email added successfully");
     });
@@ -27,7 +28,10 @@ class onBoardingServices {
     await FirebaseFirestore.instance
         .collection("user_data")
         .doc(auth.currentUser?.uid)
-        .update({fieldName: FieldValue}).then((value) {
+        .update({
+      fieldName: FieldValue,
+      "uid": auth.currentUser?.uid ?? ""
+    }).then((value) {
       print(fieldName + " updated successfully");
     });
   }
@@ -46,15 +50,17 @@ class onBoardingServices {
     }
   }
 
-  Future<List<Map<String, dynamic>>> _fetchDocuments() async {
+  Future<List<Map<String, dynamic>>> fetchDocuments() async {
     final FirebaseFirestore _firestore = FirebaseFirestore.instance;
     try {
       QuerySnapshot querySnapshot =
-          await _firestore.collection('your_collection').get();
+          await _firestore.collection('user_data').get();
       List<QueryDocumentSnapshot> documents = querySnapshot.docs;
 
-      List<Map<String, dynamic>> data =
-          documents.map((doc) => doc.data() as Map<String, dynamic>).toList();
+      List<Map<String, dynamic>> data = documents
+          .where((doc) => doc.id != auth.currentUser?.uid)
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .toList();
       return data;
     } catch (e) {
       print('Error fetching documents: $e');
