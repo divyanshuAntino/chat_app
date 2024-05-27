@@ -14,7 +14,7 @@ class Routes {
   Routes({required this.log}) {
     print(log);
     routes = GoRouter(
-        initialLocation: log == "loggedIn" ? "/auth" : "/home",
+        initialLocation: log == "loggedIn" ? "/home" : "/auth",
         routes: [
           GoRoute(path: "/home", builder: (context, state) => const NavBar()),
           GoRoute(
