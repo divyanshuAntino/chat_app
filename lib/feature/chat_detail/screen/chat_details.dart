@@ -24,9 +24,7 @@ class _ChatDetailsState extends State<ChatDetails> {
   void initState() {
     userId = widget.userId ?? "";
     print(userId);
-    reference = FirebaseDatabase.instance
-        .ref()
-        .child("${auth.currentUser?.uid}$userId");
+    reference = FirebaseDatabase.instance.ref().child(userId);
 
     // TODO: implement initState
     super.initState();

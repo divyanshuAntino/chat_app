@@ -5,12 +5,11 @@ class ChatServices {
   String currentUserId = auth.currentUser?.uid ?? "";
 
   Future<String> chreatChatRoom(String fieldValue) async {
-  
     await FirebaseFirestore.instance
         .collection("user_data")
         .doc(auth.currentUser?.uid)
         .update({
-      "chatId": FieldValue.arrayUnion([fieldValue])
+      "chatIds": FieldValue.arrayUnion([currentUserId + fieldValue])
     }).then((value) {
       print("chat id created successfully");
     });
@@ -18,7 +17,7 @@ class ChatServices {
         .collection("user_data")
         .doc(fieldValue)
         .update({
-      "chatId": FieldValue.arrayUnion([fieldValue]),
+      "chatIds": FieldValue.arrayUnion([currentUserId + fieldValue]),
     }).then((value) {
       print(" chat id created successfully");
     });

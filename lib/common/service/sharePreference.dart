@@ -11,4 +11,11 @@ class customSharePreference {
     String? username = prefs.getString(key);
     return username ?? "";
   }
+  Future<void> _removeSharedPreference(String key) async {
+    // Obtain shared preferences.
+    final prefs = await SharedPreferences.getInstance();
+
+    // Remove data for the key "my_variable_key".
+    await prefs.remove(key);
+  }
 }

@@ -1,8 +1,10 @@
+import 'package:chatapp/common/service/sharePreference.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Authentication {
+  customSharePreference customPref = customSharePreference();
   final googleSignIn = GoogleSignIn();
   Future<UserCredential?> SignUpWithGoogle() async {
     final GoogleSignInAccount? googleUser = await googleSignIn.signIn();
@@ -22,6 +24,7 @@ class Authentication {
   void logout() async {
     await googleSignIn.disconnect();
     FirebaseAuth.instance.signOut();
+    customPref.readData('logIn');
     print("Logout successfully");
   }
 
