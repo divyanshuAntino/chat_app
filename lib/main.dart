@@ -75,7 +75,7 @@ class MyAppWithRouter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Routes routes = Routes(log: logInfo);
+    Routes(log: logInfo);
     return MaterialApp.router(
       routerConfig: Routes.routes,
     );

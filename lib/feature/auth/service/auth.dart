@@ -1,4 +1,3 @@
-import 'package:chatapp/main.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
@@ -87,7 +86,7 @@ class Authentication {
         }
 
         // Update the document with the modified array
-        await docRef.update({'userIds': userIds});
+        await docRef.update({'logged': userIds});
 
         print('User ID $userId added to the array.');
       } else {
