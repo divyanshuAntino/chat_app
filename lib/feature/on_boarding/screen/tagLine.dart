@@ -1,14 +1,13 @@
 import 'package:chatapp/constant/constant.dart';
-import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
+import 'package:chatapp/routes/app_routes.dart';
+import 'package:chatapp/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class TagLine extends StatelessWidget {
   const TagLine({super.key});
 
   @override
   Widget build(BuildContext context) {
-    onBoardingServices onboard = onBoardingServices();
     TextEditingController controller = TextEditingController();
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Scaffold(
@@ -42,8 +41,7 @@ class TagLine extends StatelessWidget {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              onboard.updateUserInfo("tagLine", controller.text);
-              context.pushReplacement("/profile");
+              AppRoutes.appRouter.push(Routes.name);
             },
           )
         ],

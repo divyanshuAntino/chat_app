@@ -1,10 +1,10 @@
 import 'dart:io';
 
 import 'package:chatapp/constant/constant.dart';
-import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
+import 'package:chatapp/routes/app_routes.dart';
+import 'package:chatapp/routes/routes.dart';
+
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ProfilePhoto extends StatefulWidget {
@@ -17,7 +17,6 @@ class ProfilePhoto extends StatefulWidget {
 class _ProfilePhotoState extends State<ProfilePhoto> {
   File? selectedImage;
   bool selectimage = false;
-  onBoardingServices onBoard = onBoardingServices();
 
   Future openCamera() async {
     final picker = ImagePicker();
@@ -27,9 +26,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
         selectedImage = File(pickedFile.path);
         selectimage = true;
       });
-    } else {
-      print("file is not available to load");
-    }
+    } else {}
   }
 
   Future selectPhotoFromGallery() async {
@@ -40,9 +37,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
         selectedImage = File(pickedFile.path);
         selectimage = true;
       });
-    } else {
-      print("file is not available to load");
-    }
+    } else {}
   }
 
   // ignore: non_constant_identifier_names
@@ -160,7 +155,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                context.pushReplacement("/home");
+                AppRoutes.appRouter.push(Routes.home);
               },
             ),
             ElevatedButton(
@@ -173,9 +168,7 @@ class _ProfilePhotoState extends State<ProfilePhoto> {
                 style: TextStyle(color: Colors.white),
               ),
               onPressed: () {
-                onBoard.uploadImage(
-                    selectedImage ?? File("assets/image/person.png"));
-                context.pushReplacement("/home");
+                AppRoutes.appRouter.push(Routes.home);
               },
             ),
           ],

@@ -44,7 +44,7 @@ class _PersonCartState extends State<PersonCart> {
               widget.isOnline ?? false
                   ? Positioned(
                       top: mediaQueryData.size.height * 0.046,
-                      left: mediaQueryData.size.width * 0.12,
+                      left: mediaQueryData.size.width * 0.105,
                       child: Container(
                         width: 9,
                         height: 9,

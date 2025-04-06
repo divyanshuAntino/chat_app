@@ -1,8 +1,7 @@
 import 'package:chatapp/constant/constant.dart';
-import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
-
+import 'package:chatapp/routes/app_routes.dart';
+import 'package:chatapp/routes/routes.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class UserName extends StatefulWidget {
   const UserName({super.key});
@@ -12,12 +11,10 @@ class UserName extends StatefulWidget {
 }
 
 class _UserNameState extends State<UserName> {
-  onBoardingServices onboard = onBoardingServices();
   TextEditingController controller = TextEditingController();
   @override
   void initState() {
     super.initState();
-    onboard.createUser();
   }
 
   @override
@@ -54,8 +51,7 @@ class _UserNameState extends State<UserName> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              onboard.updateUserInfo("userName", controller.text);
-              context.pushReplacement("/dob");
+              AppRoutes.appRouter.push(Routes.name);
             },
           )
         ],

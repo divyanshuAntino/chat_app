@@ -1,21 +1,19 @@
-import 'package:chatapp/feature/chat_detail/service/chat_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:go_router/go_router.dart';
 
 class PersonAddCart extends StatefulWidget {
-  final String? Name;
+  final String? name;
   final String? tagLine;
   final bool? isOnline;
   final String? userId;
 
-  final String? Imagepath;
+  final String? imagepath;
   const PersonAddCart(
       {super.key,
-      this.Name,
+      this.name,
       this.tagLine,
       this.isOnline,
-      this.Imagepath,
+      this.imagepath,
       this.userId});
 
   @override
@@ -23,7 +21,7 @@ class PersonAddCart extends StatefulWidget {
 }
 
 class _PersonAddCartState extends State<PersonAddCart> {
-  ChatServices chatServices = ChatServices();
+  // ChatServices chatServices = ChatServices();
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
@@ -41,7 +39,7 @@ class _PersonAddCartState extends State<PersonAddCart> {
           Stack(
             children: [
               CircleAvatar(
-                backgroundImage: NetworkImage(widget.Imagepath ??
+                backgroundImage: AssetImage(widget.imagepath ??
                     "https://upload.wikimedia.org/wikipedia/commons/e/e0/Userimage.png"),
                 radius: 26,
               ),
@@ -54,7 +52,8 @@ class _PersonAddCartState extends State<PersonAddCart> {
                         height: 9,
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle, color: Colors.green),
-                      ))
+                      ),
+                    )
                   : const SizedBox()
             ],
           ),
@@ -68,7 +67,7 @@ class _PersonAddCartState extends State<PersonAddCart> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.Name ?? "",
+                  widget.name ?? "",
                   style: const TextStyle(
                       fontWeight: FontWeight.w600, fontSize: 16),
                 ),
@@ -81,13 +80,7 @@ class _PersonAddCartState extends State<PersonAddCart> {
             ),
           ),
           GestureDetector(
-            onTap: () async {
-              String chatId =
-                  await chatServices.chreatChatRoom(widget.userId ?? "");
-              context.push(
-                "/chatDetail/$chatId",
-              );
-            },
+            onTap: () async {},
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.end,

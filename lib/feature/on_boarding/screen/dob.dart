@@ -1,8 +1,8 @@
 import 'package:chatapp/constant/constant.dart';
-import 'package:chatapp/feature/on_boarding/service/onboarding.dart';
+import 'package:chatapp/routes/app_routes.dart';
+import 'package:chatapp/routes/routes.dart';
 
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 
 class Dob extends StatefulWidget {
   const Dob({super.key});
@@ -12,7 +12,7 @@ class Dob extends StatefulWidget {
 }
 
 class _DobState extends State<Dob> {
-  onBoardingServices onboard = onBoardingServices();
+  // onBoardingServices onboard = onBoardingServices();
   TextEditingController controller = TextEditingController();
 
   @override
@@ -50,8 +50,8 @@ class _DobState extends State<Dob> {
               style: TextStyle(color: Colors.white),
             ),
             onPressed: () {
-              onboard.updateUserInfo("dob", controller.text);
-              context.pushReplacement("/name");
+              // onboard.updateUserInfo("dob", controller.text);
+              AppRoutes.appRouter.push(Routes.name);
             },
           )
         ],
