@@ -13,11 +13,12 @@ class _MyStatusState extends State<MyStatus> {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
-        width: mediaQueryData.size.width,
-        height: mediaQueryData.size.height * 0.1,
-        padding: const EdgeInsets.all(8),
-        margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-        child: Row(children: [
+      width: mediaQueryData.size.width,
+      height: mediaQueryData.size.height * 0.1,
+      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      child: Row(
+        children: [
           Stack(
             children: [
               const CircleAvatar(
@@ -25,13 +26,14 @@ class _MyStatusState extends State<MyStatus> {
                 backgroundImage: AssetImage("assets/image/virat.jpg"),
               ),
               Positioned(
-                  top: mediaQueryData.size.height * 0.043,
-                  left: mediaQueryData.size.width * 0.11,
-                  child: Container(
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle, color: constant.primary),
-                    child: const Icon(Icons.add, color: Colors.white),
-                  ))
+                top: mediaQueryData.size.height * 0.043,
+                left: mediaQueryData.size.width * 0.103,
+                child: Container(
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle, color: constant.primary),
+                  child: const Icon(Icons.add, color: Colors.white),
+                ),
+              )
             ],
           ),
           const SizedBox(
@@ -56,6 +58,8 @@ class _MyStatusState extends State<MyStatus> {
               ],
             ),
           ),
-        ]));
+        ],
+      ),
+    );
   }
 }

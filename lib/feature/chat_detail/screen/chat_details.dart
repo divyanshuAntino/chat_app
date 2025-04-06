@@ -27,15 +27,19 @@ class _ChatDetailsState extends State<ChatDetails> {
         children: [
           const ChatAppBar(),
           Positioned(
-              top: mediaQueryData.size.height * 0.151,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                height: mediaQueryData.size.height * 0.8,
-                width: mediaQueryData.size.width,
-                child: ListView(
-                  children: [SendMessage(), ReceiveMessage()],
-                ),
-              )),
+            top: mediaQueryData.size.height * 0.151,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              height: mediaQueryData.size.height * 0.8,
+              width: mediaQueryData.size.width,
+              child: ListView(
+                children: [
+                  SendMessage(),
+                  ReceiveMessage(),
+                ],
+              ),
+            ),
+          ),
           Align(
             alignment: Alignment.bottomCenter,
             child: TypeArea(

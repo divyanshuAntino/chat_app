@@ -39,24 +39,17 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
       extendBody: true,
       bottomNavigationBar: CircleNavBar(
         activeIcons: [
-          Icon(Icons.home, color: constant.primary),
-          SizedBox(
-            width: 14,
-            height: 14,
-            child: SvgPicture.asset(
-              "assets/svg/status.svg",
-              color: constant.primary,
-              width: 14,
-              height: 14,
-              fit: BoxFit.fill,
-            ),
+          Icon(Icons.home_outlined, color: constant.primary),
+          SvgPicture.asset(
+            "assets/svg/status.svg",
+            color: constant.primary,
           ),
           Icon(Icons.add, color: constant.primary),
           Icon(Icons.call, color: constant.primary),
           Icon(Icons.settings, color: constant.primary),
         ],
         inactiveIcons: [
-          const Icon(Icons.home, color: Colors.black),
+          const Icon(Icons.home_outlined, color: Colors.black),
           SvgPicture.asset(
             "assets/svg/status.svg",
             color: Colors.black,
