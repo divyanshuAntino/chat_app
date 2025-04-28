@@ -1,91 +1,55 @@
-import 'package:chatapp/routes/app_routes.dart';
-
+import 'dart:async';
+import 'dart:developer';
+import 'package:chatapp/app/app.dart';
+import 'package:chatapp/models/locale.dart';
 import 'package:chatapp/constant/constant.dart';
-// import 'package:firebase_auth/firebase_auth.dart';
-// import 'package:firebase_core/firebase_core.dart';
+import 'package:chatapp/service/hive/hive.dart';
+import 'package:chatapp/utils/bloc_observer/observer.dart';
+import 'package:chatapp/utils/dependency_injection/di.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-bool shouldUseFirebaseEmulator = false;
+Future<void> main() async {
+  runZonedGuarded<Future<void>>(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
 
-// late final FirebaseApp app;
-// late final FirebaseAuth auth;
+      //firebase crashlytics
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  constant.prefs = await SharedPreferences.getInstance();
+      await EasyLocalization.ensureInitialized();
+      setupLocator();
+      final HiveBoxService hive = locator<HiveBoxService>();
+      await hive.init();
 
-  // if (kIsWeb) {
-  // app = await Firebase.initializeApp(
-  //     options: const FirebaseOptions(
-  //         apiKey: "AIzaSyAUlzbXst1ZHLVsf3aJgwYx392kBPrJyrg",
-  //         authDomain: "chatapp-3f335.firebaseapp.com",
-  //         projectId: "chatapp-3f335",
-  //         storageBucket: "chatapp-3f335.appspot.com",
-  //         messagingSenderId: "225156356600",
-  //         appId: "1:225156356600:web:04556fc30fb0aab34c9e0d",
-  //         measurementId: "G-52B52LCW3Q"));
-  // } else {
-  //   app = await Firebase.initializeApp(
-  //       options: DefaultFirebaseOptions.currentPlatform);
-  // }
-  // auth = FirebaseAuth.instanceFor(app: app);
+      // To turn off landscape mode
+      await SystemChrome.setPreferredOrientations(
+        [DeviceOrientation.portraitUp],
+      );
 
-  // if (shouldUseFirebaseEmulator) {
-  //   await auth.useAuthEmulator('localhost', 9099);
-  // }
-  runApp(MyApp());
-  SystemChrome.setSystemUIOverlayStyle(
-    SystemUiOverlayStyle(
-      statusBarColor: constant.primary,
-      systemNavigationBarColor: const Color.fromARGB(0, 255, 255, 255),
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarIconBrightness: Brightness.light,
-    ),
+      SystemChrome.setSystemUIOverlayStyle(
+        const SystemUiOverlayStyle(
+            statusBarColor: Colors.transparent,
+            statusBarIconBrightness: Brightness.light // transparent status bar
+            ),
+      );
+
+      Bloc.observer = const Observer();
+      runApp(
+        EasyLocalization(
+          supportedLocales: supportedLocales,
+          path: 'assets/translations',
+          fallbackLocale: LocaleType.english,
+          child: const App(),
+        ),
+      );
+    },
+    (e, stack) {
+      log(
+        e.toString(),
+      );
+    },
   );
 }
-
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      builder: (context, child) {
-        return child!;
-      },
-      title: 'Chat App',
-      debugShowCheckedModeBanner: false,
-      routerConfig: AppRoutes.appRouter,
-      darkTheme: ThemeData.dark(),
-    );
-
-    // MaterialApp(
-    //   home: FutureBuilder<String>(
-    //     future: customSharePreference().readData('logIn'),
-    //     builder: (context, snapshot) {
-    //       if (snapshot.connectionState == ConnectionState.waiting) {
-    //         return const Center(child: CircularProgressIndicator());
-    //       } else if (snapshot.hasError) {
-    //         return const Center(child: Text('Error loading preferences'));
-    //       } else {
-    //         final log = snapshot.data ?? '';
-    //         return MyAppWithRouter(logInfo: log);
-    //       }
-    //     },
-    //   ),
-    //   debugShowCheckedModeBanner: false,
-    // );
-  }
-}
-
-// class MyAppWithRouter extends StatelessWidget {
-//   final String logInfo;
-//   MyAppWithRouter({super.key, required this.logInfo});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     Routes(log: logInfo);
-   
-//   }
-// }

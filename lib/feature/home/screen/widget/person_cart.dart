@@ -1,6 +1,7 @@
 import 'package:chatapp/constant/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:chatapp/shared/extension/common_extension.dart';
 
 class PersonCart extends StatefulWidget {
   final bool? isOnline;
@@ -8,13 +9,16 @@ class PersonCart extends StatefulWidget {
   final String? lastMessage;
   final int? messageCount;
   final String? path;
-  const PersonCart(
-      {super.key,
-      this.isOnline,
-      this.userName,
-      this.lastMessage,
-      this.path,
-      this.messageCount});
+  final String? lastMessageTime;
+  const PersonCart({
+    super.key,
+    this.isOnline,
+    this.userName,
+    this.lastMessage,
+    this.path,
+    this.messageCount,
+    this.lastMessageTime,
+  });
 
   @override
   State<PersonCart> createState() => _PersonCartState();
@@ -38,7 +42,7 @@ class _PersonCartState extends State<PersonCart> {
           Stack(
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(widget.path ?? ""),
+                backgroundImage: NetworkImage(widget.path ?? ""),
                 radius: 26,
               ),
               widget.isOnline ?? false
@@ -49,7 +53,9 @@ class _PersonCartState extends State<PersonCart> {
                         width: 9,
                         height: 9,
                         decoration: const BoxDecoration(
-                            shape: BoxShape.circle, color: Colors.green),
+                          shape: BoxShape.circle,
+                          color: Colors.green,
+                        ),
                       ))
                   : const SizedBox()
             ],
@@ -58,7 +64,7 @@ class _PersonCartState extends State<PersonCart> {
             width: 10,
           ),
           SizedBox(
-            width: mediaQueryData.size.width * 0.55,
+            width: mediaQueryData.size.width * 0.5,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +86,7 @@ class _PersonCartState extends State<PersonCart> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const Text("9:32 pm"),
+              Text(widget.lastMessageTime?.toSmartString() ?? ""),
               widget.messageCount != null
                   ? Container(
                       margin: const EdgeInsets.only(top: 5),

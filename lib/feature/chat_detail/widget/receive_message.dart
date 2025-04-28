@@ -1,7 +1,14 @@
+import 'package:chatapp/shared/extension/common_extension.dart';
 import 'package:flutter/material.dart';
 
 class ReceiveMessage extends StatelessWidget {
-  const ReceiveMessage({super.key});
+  final String createdAt;
+  final String message;
+  const ReceiveMessage({
+    super.key,
+    required this.createdAt,
+    required this.message,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -17,9 +24,9 @@ class ReceiveMessage extends StatelessWidget {
                   bottomRight: Radius.circular(20),
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20))),
-          child: const Center(
+          child: Center(
             child: Text(
-              "The moonlight weaves its silver thread,Upon the dreams of those who've fled.Through darkest night and brightest day,Hope's gentle glow will light the way.",
+              message,
               style: TextStyle(fontSize: 16),
               maxLines: 50,
             ),
@@ -28,7 +35,7 @@ class ReceiveMessage extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        const Text("12:23pm"),
+        Text(createdAt.toSmartString()),
       ],
     );
   }

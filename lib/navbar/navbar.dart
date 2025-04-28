@@ -59,8 +59,8 @@ class _NavBarState extends State<NavBar> with SingleTickerProviderStateMixin {
           const Icon(Icons.settings_outlined, color: Colors.black),
         ],
         color: Colors.white,
-        height: 60,
-        circleWidth: 60,
+        height: 80,
+        circleWidth: 50,
         activeIndex: tabIndex,
         onTap: (index) {
           tabIndex = index;

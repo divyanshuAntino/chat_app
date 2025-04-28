@@ -1,10 +1,13 @@
 import 'package:chatapp/common/service/sharePreference.dart';
 
 import 'package:chatapp/constant/constant.dart';
+
+import 'package:chatapp/feature/auth/cubit/auth_cubit.dart';
 import 'package:chatapp/feature/auth/screen/widget/signin_form.dart';
 import 'package:chatapp/feature/auth/screen/widget/signup_form.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 enum Auth { signin, signup }
 
@@ -22,6 +25,12 @@ class _AuthScreenState extends State<AuthScreen> {
   Auth _auth = Auth.signup;
   Color colorSign = Colors.black;
   Color colorSignup = constant.primary;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    context.read<AuthCubit>().getTokenFromStorage();
+  }
 
   @override
   Widget build(BuildContext context) {

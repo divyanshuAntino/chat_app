@@ -47,22 +47,29 @@ class _ProfileExtendState extends State<ProfileExtend> {
             height: mediaQueryData.size.height * 0.04,
           ),
           Center(
-              child: Stack(children: [
-            const CircleAvatar(
-              backgroundImage: AssetImage("assets/image/virat.jpg"),
-              radius: 60,
+            child: Stack(
+              children: [
+                const CircleAvatar(
+                  backgroundImage: AssetImage("assets/image/virat.jpg"),
+                  radius: 60,
+                ),
+                Positioned(
+                  left: mediaQueryData.size.width * 0.21,
+                  top: mediaQueryData.size.height * 0.093,
+                  child: Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                        shape: BoxShape.circle, color: constant.primary),
+                    child: const Icon(
+                      Icons.photo_camera,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                )
+              ],
             ),
-            Positioned(
-              left: mediaQueryData.size.width * 0.21,
-              top: mediaQueryData.size.height * 0.093,
-              child: Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                      shape: BoxShape.circle, color: constant.primary),
-                  child: const Icon(Icons.photo_camera,
-                      color: Colors.white, size: 30)),
-            )
-          ]))
+          )
         ],
       ),
     );

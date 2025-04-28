@@ -1,15 +1,24 @@
 import 'package:chatapp/constant/constant.dart';
 import 'package:flutter/material.dart';
+import 'package:chatapp/shared/extension/common_extension.dart';
 
 class SendMessage extends StatelessWidget {
-  const SendMessage({super.key});
+  final String createdAt;
+  final String message;
+  const SendMessage({
+    super.key,
+    required this.createdAt,
+    required this.message,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: [
-        const Text("12:23pm"),
+        Text(
+          createdAt.toSmartString(),
+        ),
         const SizedBox(
           width: 10,
         ),
@@ -22,10 +31,13 @@ class SendMessage extends StatelessWidget {
                   bottomLeft: Radius.circular(20),
                   topLeft: Radius.circular(20),
                   topRight: Radius.circular(20))),
-          child: const Center(
+          child: Center(
             child: Text(
-              "Divyanshu singh",
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              message,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+              ),
             ),
           ),
         ),

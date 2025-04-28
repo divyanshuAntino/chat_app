@@ -1,3 +1,4 @@
+import 'package:chatapp/responsive/app_screen_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
@@ -26,10 +27,14 @@ class _PersonAddCartState extends State<PersonAddCart> {
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
-      width: mediaQueryData.size.width * 0.95,
-      height: mediaQueryData.size.height * 0.09,
-      margin: const EdgeInsets.symmetric(horizontal: 10),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      margin: EdgeInsets.symmetric(
+        horizontal: 8.widthMultiplier,
+        vertical: 4.heightMultiplier,
+      ),
+      padding: EdgeInsets.symmetric(
+        horizontal: 10.widthMultiplier,
+        vertical: 8.heightMultiplier,
+      ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.black.withOpacity(0.1), width: 1),

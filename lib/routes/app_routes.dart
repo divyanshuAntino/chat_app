@@ -14,7 +14,7 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
   static final GoRouter routes = GoRouter(
-      initialLocation: Routes.home,
+      initialLocation: Routes.auth,
       navigatorKey: navigatorKey,
       routes: [
         GoRoute(
@@ -36,7 +36,10 @@ class AppRoutes {
         GoRoute(
           path: Routes.chatDetail,
           builder: (context, state) {
-            return ChatDetails();
+            final receiverId = state.extra as String;
+            return ChatDetails(
+              receiverId: receiverId,
+            );
           },
         ),
         GoRoute(

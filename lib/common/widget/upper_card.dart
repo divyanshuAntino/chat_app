@@ -3,28 +3,33 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 class UpperCard extends StatelessWidget {
-  const UpperCard({super.key});
+  final String name;
+  const UpperCard({
+    super.key,
+    required this.name,
+  });
 
   @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
-      padding: const EdgeInsets.only(top: 35, left: 10),
+      padding: const EdgeInsets.only(top: 45, left: 10),
       width: mediaQueryData.size.width,
       height: mediaQueryData.size.height * 0.15,
       decoration: BoxDecoration(
           borderRadius: const BorderRadius.only(
-              bottomLeft: Radius.circular(25),
-              bottomRight: Radius.circular(25)),
+            bottomLeft: Radius.circular(25),
+            bottomRight: Radius.circular(25),
+          ),
           color: constant.primary),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          const Column(
+          Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Hello Divyanshu",
+                "Hello $name",
                 style: TextStyle(color: Colors.white, fontSize: 20),
               ),
               Text(
