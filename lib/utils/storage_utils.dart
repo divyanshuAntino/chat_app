@@ -15,7 +15,7 @@ class SecureStorage {
     return _instance!;
   }
 
-  /// Create storage
+  /// Create storag
   final FlutterSecureStorage _secureStorage = const FlutterSecureStorage();
 
   /// Read value
