@@ -43,10 +43,26 @@ class _PersonAddCartState extends State<PersonAddCart> {
         children: [
           Stack(
             children: [
-              CircleAvatar(
-                backgroundImage: AssetImage(widget.imagepath ??
-                    "https://upload.wikimedia.org/wikipedia/commons/e/e0/Userimage.png"),
-                radius: 26,
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(width: 1, color: Colors.white)),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(100),
+                  child: widget.imagepath?.contains('http') ?? false
+                      ? Image.network(
+                          widget.imagepath ?? '',
+                          fit: BoxFit.fill,
+                        )
+                      : Image.asset(
+                          "assets/image/ch.jpg",
+                          fit: BoxFit.fill,
+                          width: 50,
+                          height: 50,
+                        ),
+                ),
               ),
               widget.isOnline ?? false
                   ? Positioned(

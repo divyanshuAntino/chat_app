@@ -4,6 +4,7 @@ import 'package:chatapp/feature/add/domain/add_cubit.dart';
 import 'package:chatapp/feature/add/domain/add_state.dart';
 
 import 'package:chatapp/feature/add/widget/person_add_card.dart';
+import 'package:chatapp/feature/chat_detail/screen/chat_details.dart';
 import 'package:chatapp/feature/home/domain/home_cubit.dart';
 import 'package:chatapp/responsive/app_screen_util.dart';
 import 'package:chatapp/routes/app_routes.dart';
@@ -55,11 +56,18 @@ class _AddScreenState extends State<AddScreen> {
                     return GestureDetector(
                       onTap: () {
                         AppRoutes.appRouter.push(Routes.chatDetail,
-                            extra: state.addUserModel?.data?[index].userid);
+                            extra: ChatDetailParms(
+                                userName:
+                                    state.addUserModel?.data?[index].name ?? '',
+                                userImage:
+                                    state.addUserModel?.data?[index].userimage,
+                                receiverId:
+                                    state.addUserModel?.data?[index].userid ??
+                                        ''));
                       },
                       child: PersonAddCart(
                           name: state.addUserModel?.data?[index].name,
-                          imagepath: "assets/image/virat.jpg",
+                          imagepath: state.addUserModel?.data?[index].userimage,
                           tagLine: state.addUserModel?.data?[index].tagline,
                           userId: state.addUserModel?.data?[index].userid),
                     );

@@ -4,7 +4,17 @@ import 'package:chatapp/routes/app_routes.dart';
 import 'package:flutter/material.dart';
 
 class ChatAppBar extends StatelessWidget {
-  const ChatAppBar({super.key});
+  final String image;
+  final String name;
+  final bool isOnline;
+  final String lastActive;
+  const ChatAppBar({
+    super.key,
+    required this.image,
+    required this.name,
+    required this.isOnline,
+    required this.lastActive,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,41 +48,46 @@ class ChatAppBar extends StatelessWidget {
                 border: Border.all(width: 1, color: Colors.white)),
             child: ClipRRect(
               borderRadius: BorderRadius.circular(100),
-              child: Image.asset(
-                "assets/image/ch.jpg",
-                fit: BoxFit.fill,
-                width: 50,
-                height: 50,
-              ),
+              child: image.contains('http')
+                  ? Image.network(image)
+                  : Image.asset(
+                      "assets/image/ch.jpg",
+                      fit: BoxFit.fill,
+                      width: 50,
+                      height: 50,
+                    ),
             ),
           ),
           const SizedBox(
             width: 10,
           ),
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Divyanshu Singh",
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w500),
-              ),
-              Text(
-                "Active 2 minute ago",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 14,
+          SizedBox(
+            width: mediaQueryData.size.width * 0.35,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  name,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500),
                 ),
-              )
-            ],
+                Text(
+                  isOnline ? "Online" : lastActive,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 14,
+                  ),
+                )
+              ],
+            ),
           ),
           Padding(
             padding: EdgeInsets.only(
               right: 10,
-              left: mediaQueryData.size.width * 0.1,
+              left: mediaQueryData.size.width * 0.16,
             ),
             child: const Icon(
               Icons.video_camera_front_rounded,

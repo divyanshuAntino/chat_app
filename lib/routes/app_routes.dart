@@ -5,6 +5,7 @@ import 'package:chatapp/feature/on_boarding/screen/name.dart';
 import 'package:chatapp/feature/on_boarding/screen/photo.dart';
 import 'package:chatapp/feature/on_boarding/screen/tagLine.dart';
 import 'package:chatapp/feature/on_boarding/screen/user_name.dart';
+import 'package:chatapp/feature/splash/splash.dart';
 import 'package:chatapp/navbar/navbar.dart';
 import 'package:chatapp/routes/routes.dart';
 import 'package:flutter/material.dart';
@@ -14,9 +15,17 @@ final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
 
 class AppRoutes {
   static final GoRouter routes = GoRouter(
-      initialLocation: Routes.auth,
+      initialLocation: Routes.splashScreen,
       navigatorKey: navigatorKey,
       routes: [
+        GoRoute(
+          path: Routes.splashScreen,
+          builder: (context, state) => const SpalshScreen(),
+        ),
+        GoRoute(
+          path: Routes.home,
+          builder: (context, state) => const NavBar(),
+        ),
         GoRoute(
           path: Routes.home,
           builder: (context, state) => const NavBar(),
@@ -36,9 +45,9 @@ class AppRoutes {
         GoRoute(
           path: Routes.chatDetail,
           builder: (context, state) {
-            final receiverId = state.extra as String;
+            final receiverId = state.extra as ChatDetailParms;
             return ChatDetails(
-              receiverId: receiverId,
+              chatDetailParms: receiverId,
             );
           },
         ),

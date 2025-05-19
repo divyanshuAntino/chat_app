@@ -63,9 +63,11 @@ class AuthCubit extends Cubit<AuthState> {
           apiStatus: ApiStatus.success,
         ),
       );
+
+      handelNavigation(
+          accessToken: data.data?.token?.accessToken ?? '',
+          userId: data.data?.user?.id ?? '');
       AppRoutes.appRouter.push("/home");
-      handelNavigation(accessToken: data.data?.token?.accessToken ?? '');
-      resetAuthCubit();
     } catch (e) {
       log(e.toString());
       emit(
@@ -78,10 +80,12 @@ class AuthCubit extends Cubit<AuthState> {
 
   void handelNavigation({
     String? accessToken,
+    String? userId,
   }) async {
     if (accessToken != null) {
       saveTokenInStorage(
         accessToken: accessToken,
+        userId: userId ?? '',
       );
     }
 
@@ -96,13 +100,16 @@ class AuthCubit extends Cubit<AuthState> {
 
   void saveTokenInStorage({
     required String accessToken,
+    required String userId,
   }) {
-    emit(state.copyWith(
-      accessToken: accessToken,
-    ));
+    emit(state.copyWith(accessToken: accessToken, userId: userId));
     SecureStorage.instance.write(
       AppStrings.accessToken,
       accessToken,
+    );
+    SecureStorage.instance.write(
+      AppStrings.userId,
+      userId,
     );
   }
 
@@ -111,10 +118,15 @@ class AuthCubit extends Cubit<AuthState> {
     final accessToken = await SecureStorage.instance.read(
       AppStrings.accessToken,
     );
+    final userid = await SecureStorage.instance.read(
+      AppStrings.userId,
+    );
 
     handelNavigation(
       accessToken: accessToken,
+      userId: userid,
     );
+
     return null;
   }
 

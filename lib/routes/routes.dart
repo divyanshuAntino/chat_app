@@ -7,4 +7,5 @@ class Routes {
   static const name = '/name';
   static const tagLine = '/tag-line';
   static const chatDetail = '/chat-details';
+  static const splashScreen = '/splash-screen';
 }

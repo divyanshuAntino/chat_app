@@ -11,6 +11,7 @@ class AuthState extends Equatable {
   final FieldState<TextEditingController> emailController;
   final FieldState<TextEditingController> passwordController;
   final AuthModel? authModel;
+  final String userId;
   const AuthState({
     required this.apiStatus,
     required this.accessToken,
@@ -18,6 +19,7 @@ class AuthState extends Equatable {
     required this.nameController,
     required this.passwordController,
     this.authModel,
+    required this.userId,
   });
   factory AuthState.init() {
     return AuthState(
@@ -33,15 +35,18 @@ class AuthState extends Equatable {
         value: TextEditingController(text: ""),
       ),
       authModel: null,
+      userId: '',
     );
   }
-  AuthState copyWith(
-      {ApiStatus? apiStatus,
-      String? accessToken,
-      FieldState<TextEditingController>? nameController,
-      FieldState<TextEditingController>? emailController,
-      FieldState<TextEditingController>? passwordController,
-      AuthModel? authModel}) {
+  AuthState copyWith({
+    ApiStatus? apiStatus,
+    String? accessToken,
+    FieldState<TextEditingController>? nameController,
+    FieldState<TextEditingController>? emailController,
+    FieldState<TextEditingController>? passwordController,
+    AuthModel? authModel,
+    String? userId,
+  }) {
     return AuthState(
       apiStatus: apiStatus ?? this.apiStatus,
       accessToken: accessToken ?? this.accessToken,
@@ -49,6 +54,7 @@ class AuthState extends Equatable {
       emailController: emailController ?? this.emailController,
       passwordController: passwordController ?? this.passwordController,
       authModel: authModel ?? this.authModel,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -61,5 +67,6 @@ class AuthState extends Equatable {
         emailController,
         passwordController,
         authModel,
+        userId,
       ];
 }

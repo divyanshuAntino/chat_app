@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:chatapp/feature/chat_detail/widget/chat_details_screen_app_abr.dart';
 import 'package:chatapp/feature/chat_detail/widget/receive_message.dart';
 import 'package:chatapp/feature/chat_detail/widget/send_message.dart';
@@ -6,14 +8,32 @@ import 'package:chatapp/feature/home/domain/home_cubit.dart';
 import 'package:chatapp/responsive/app_screen_util.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:lottie/lottie.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:chatapp/feature/chat_detail/domain/chat_detail_cubit.dart';
 
-class ChatDetails extends StatefulWidget {
+class ChatDetailParms {
   final String receiverId;
+  final String? roomId;
+  final String userImage;
+  final String userName;
+  final bool? isOnline;
+  final String? lastActive;
+  ChatDetailParms({
+    required this.receiverId,
+    this.roomId,
+    required this.userImage,
+    required this.userName,
+    this.isOnline,
+    this.lastActive,
+  });
+}
+
+class ChatDetails extends StatefulWidget {
+  final ChatDetailParms chatDetailParms;
   const ChatDetails({
     super.key,
-    required this.receiverId,
+    required this.chatDetailParms,
   });
 
   @override
@@ -25,49 +45,116 @@ class _ChatDetailsState extends State<ChatDetails> {
   List message = [];
   String senderId = '';
   final ScrollController _scrollController = ScrollController();
+  bool _isTyping = false;
+  bool isOnline = true;
   @override
   void initState() {
     senderId = context.read<HomeCubit>().state.userProfile?.data?.userid ?? '';
     super.initState();
-    // connect();
+    connect();
     joinRoom();
     WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
   }
 
+  void sendTypingEvent(bool isTyping) {
+    if (_isTyping != isTyping) {
+      _socket.emit('typing', {
+        "room_id": widget.chatDetailParms.roomId ??
+            '${senderId}_${widget.chatDetailParms.receiverId}',
+        "sender_id": widget.chatDetailParms.receiverId,
+      });
+    }
+  }
+
+  void typingStop() {
+    _socket.emit('stop_typing', {
+      "room_id": widget.chatDetailParms.roomId ??
+          '${senderId}_${widget.chatDetailParms.receiverId}',
+      "sender_id": widget.chatDetailParms.receiverId,
+    });
+  }
+
   void joinRoom() {
     _socket = IO.io(
-      'http://127.0.0.1:5001', // e.g., http://localhost:3000 or your IP
-      <String, dynamic>{
-        'transports': ['websocket'],
-      },
+      'http://127.0.0.1:5001',
+      IO.OptionBuilder().setTransports(['websocket']).build(),
     );
 
-    print(widget.receiverId);
+    _socket.off("messages");
+    _socket.off("new_message");
+
+    // Join room
     _socket.emit('join room', {
-      "room_id": '${senderId}_${widget.receiverId}',
+      "room_id": widget.chatDetailParms.roomId ??
+          '${senderId}_${widget.chatDetailParms.receiverId}',
       "sender_id": senderId,
-      "receiver_id": widget.receiverId,
+      "receiver_id": widget.chatDetailParms.receiverId,
+      "userId": context.read<HomeCubit>().state.userProfile?.data?.userid,
     });
+
+    // Set up listeners
     _socket.on("messages", (data) {
-      print(data.toString());
+      if (mounted) {
+        setState(() {
+          message = List.from(data);
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+      }
+    });
+
+    _socket.on("new_message", (data) {
+      if (mounted) {
+        setState(() {
+          message.add(data);
+        });
+        WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+      }
+    });
+    _socket.on("user_typing", (data) {
       setState(() {
-        message = data;
+        log("User is typing: $data");
+        if (widget.chatDetailParms.receiverId != data['sender_id']) {
+          _isTyping = true;
+        }
+      });
+    });
+
+    _socket.on("user_stop_typing", (data) {
+      setState(() {
+        log("User stopped typing: $data");
+        if (widget.chatDetailParms.receiverId != data['sender_id']) {
+          _isTyping = false;
+        }
+      });
+    });
+    _socket.on("user-online", (data) {
+      setState(() {
+        log("User stopped typing: $data");
+
+        isOnline = data['isOnline'];
+        print("user -> ${data["userId"]} isOnline $isOnline");
       });
     });
   }
 
-  void sendMessage(String message) {
+  void sendMessage(String messageText) {
+    final roomId = widget.chatDetailParms.roomId ??
+        '${senderId}_${widget.chatDetailParms.receiverId}';
+
     _socket.emit('chat message', {
-      "room_id": '${senderId}_${widget.receiverId}',
+      "room_id": roomId,
       "sender_id": senderId,
-      "message": message,
+      "message": messageText,
     });
     context.read<ChatDetailCubit>().clearTypingField();
-    getNewMessage();
   }
 
   void getNewMessage() {
-    _socket.emit("new message", '${senderId}_${widget.receiverId}');
+    _socket.emit(
+      "new message",
+      widget.chatDetailParms.roomId ??
+          '${senderId}_${widget.chatDetailParms.receiverId}',
+    );
     _socket.off("new_message");
     _socket.on("new_message", (data) {
       setState(() {
@@ -75,6 +162,44 @@ class _ChatDetailsState extends State<ChatDetails> {
       });
     });
     WidgetsBinding.instance.addPostFrameCallback((_) => scrollToBottom());
+  }
+
+  void connect() {
+    _socket = IO.io(
+      'http://127.0.0.1:5001',
+      <String, dynamic>{
+        'transports': ['websocket'],
+      },
+    );
+
+    _socket.onConnect((_) {
+      log('✅ Connected to socket server');
+    });
+
+    _socket.onConnectError((err) {
+      log('❌ Connection Error: $err');
+    });
+
+    _socket.onError((err) {
+      log('🔥 General Error: $err');
+    });
+
+    _socket.onDisconnect((_) {
+      log('🚫 Disconnected from socket server');
+    });
+
+    _socket.onReconnectAttempt((_) {
+      log('🔄 Trying to reconnect...');
+    });
+
+    _socket.onReconnect((_) {
+      log('Reconnected');
+    });
+
+    _socket.on('message', (data) {
+      log('📩 Message received: $data');
+    });
+    _socket.connect();
   }
 
   @override
@@ -94,17 +219,29 @@ class _ChatDetailsState extends State<ChatDetails> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _socket.disconnect();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Scaffold(
       body: Stack(
         children: [
-          const ChatAppBar(),
+          ChatAppBar(
+            image: widget.chatDetailParms.userImage,
+            name: widget.chatDetailParms.userName,
+            isOnline: widget.chatDetailParms.isOnline ?? false,
+            lastActive: widget.chatDetailParms.lastActive ?? '',
+          ),
           Positioned(
             top: mediaQueryData.size.height * 0.151,
             child: Container(
               padding: EdgeInsets.symmetric(horizontal: 10),
-              height: mediaQueryData.size.height * 0.73,
+              height: mediaQueryData.size.height * 0.69,
               width: mediaQueryData.size.width,
               child: ListView.builder(
                   controller: _scrollController,
@@ -129,6 +266,15 @@ class _ChatDetailsState extends State<ChatDetails> {
                   }),
             ),
           ),
+          if (_isTyping)
+            Positioned(
+              bottom: 50.widthMultiplier,
+              child: Lottie.asset('assets/lottie/typings.json',
+                  width: 100.widthMultiplier,
+                  height: 100.widthMultiplier,
+                  repeat: true,
+                  reverse: true),
+            ),
           Padding(
             padding: EdgeInsets.only(
               bottom: 20.heightMultiplier,
@@ -136,6 +282,9 @@ class _ChatDetailsState extends State<ChatDetails> {
             child: Align(
               alignment: Alignment.bottomCenter,
               child: TypeArea(
+                onTyping: sendTypingEvent,
+                isTyping: _isTyping,
+                stopTyping: typingStop,
                 onSend: (message) {
                   sendMessage(message);
                 },

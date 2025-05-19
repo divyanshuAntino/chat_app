@@ -8,6 +8,7 @@ class constant {
 
 abstract class AppStrings {
   static const accessToken = "access-token";
+  static const userId = 'user-id';
 }
 
 const List<Locale> supportedLocales = [Locale('en', 'US'), Locale('hi', 'IN')];

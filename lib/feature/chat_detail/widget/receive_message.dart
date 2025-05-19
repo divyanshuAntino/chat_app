@@ -15,16 +15,15 @@ class ReceiveMessage extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Container(
-          constraints: const BoxConstraints(maxWidth: 200, minHeight: 50),
-          padding: const EdgeInsets.all(10),
-          decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.only(
-                  bottomRight: Radius.circular(20),
-                  topLeft: Radius.circular(20),
-                  topRight: Radius.circular(20))),
-          child: Center(
+        Flexible(
+          child: Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.only(
+                    bottomRight: Radius.circular(20),
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20))),
             child: Text(
               message,
               style: TextStyle(fontSize: 16),
@@ -35,7 +34,10 @@ class ReceiveMessage extends StatelessWidget {
         const SizedBox(
           width: 10,
         ),
-        Text(createdAt.toSmartString()),
+        Text(
+          createdAt.toSmartString(),
+          style: TextStyle(fontSize: 12),
+        ),
       ],
     );
   }

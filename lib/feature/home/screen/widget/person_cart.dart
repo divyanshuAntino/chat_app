@@ -1,6 +1,5 @@
 import 'package:chatapp/constant/constant.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:chatapp/shared/extension/common_extension.dart';
 
 class PersonCart extends StatefulWidget {
@@ -30,9 +29,8 @@ class _PersonCartState extends State<PersonCart> {
     MediaQueryData mediaQueryData = MediaQuery.of(context);
     return Container(
       width: mediaQueryData.size.width * 0.95,
-      height: mediaQueryData.size.height * 0.1,
       margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 2.5),
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10),
         border: Border.all(color: Colors.black.withOpacity(0.1), width: 1),
@@ -47,8 +45,8 @@ class _PersonCartState extends State<PersonCart> {
               ),
               widget.isOnline ?? false
                   ? Positioned(
-                      top: mediaQueryData.size.height * 0.046,
-                      left: mediaQueryData.size.width * 0.105,
+                      bottom: 5,
+                      right: 3,
                       child: Container(
                         width: 9,
                         height: 9,
@@ -56,7 +54,8 @@ class _PersonCartState extends State<PersonCart> {
                           shape: BoxShape.circle,
                           color: Colors.green,
                         ),
-                      ))
+                      ),
+                    )
                   : const SizedBox()
             ],
           ),
@@ -64,7 +63,7 @@ class _PersonCartState extends State<PersonCart> {
             width: 10,
           ),
           SizedBox(
-            width: mediaQueryData.size.width * 0.5,
+            width: mediaQueryData.size.width * 0.57,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,12 +92,15 @@ class _PersonCartState extends State<PersonCart> {
                       width: 20,
                       height: 20,
                       decoration: BoxDecoration(
-                          color: constant.primary, shape: BoxShape.circle),
+                        color: constant.primary,
+                        shape: BoxShape.circle,
+                      ),
                       child: Center(
-                          child: Text(
-                        widget.messageCount.toString(),
-                        style: const TextStyle(color: Colors.white),
-                      )),
+                        child: Text(
+                          widget.messageCount.toString(),
+                          style: const TextStyle(color: Colors.white),
+                        ),
+                      ),
                     )
                   : const SizedBox()
             ],
